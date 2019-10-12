@@ -22,15 +22,18 @@ churchIncr :: Church -> Church
 churchIncr (Church n) = Church (\f x -> f (n f x))
 
 churchAdd :: Church -> Church -> Church
-churchAdd (Church n) (Churchopen m) = Church (\f x -> m f (n f x))
+churchAdd (Church n) (Church m) = Church (\f x -> m f (n f x))
 
 churchMult :: Church -> Church -> Church
-churchMult (Church n) (Church m) = Church (\f x -> m (n f) x)
+churchMult (Church n) (Church m) = Church (m . n)
+
+churchExp :: Church -> Church -> Church
+churchExp (Church n) (Church m) = Church (m n)
 
 main :: IO ()
 main = do
     let forty = intToChurch 40
-    let nine  = intToChurch 9
+    let nine = churchExp <$> intToChurch 3 <*> intToChurch 2
     print
         $   churchMult
         <$> (churchAdd <$> forty <*> nine)
