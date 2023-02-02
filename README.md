@@ -10,7 +10,7 @@ natToChurch :: Nat -> Church
 ```
 satisfy the (extensional) equalities
 ```
-natToChurch . churchToNat == id
 churchToNat . natToChurch == id
+natToChurch . churchToNat == id
 ```
 The first equality is trivial, and the second follows from Wadler's "Theorems for Free" applied to the Church type. QED
